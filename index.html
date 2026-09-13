@@ -1,1397 +1,1973 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
+    <title>Crazy Chicken | Sua Vibe. Seu Estilo.</title>
 
-```
-<title>Crazy Chicken | Sua Vibe. Seu Estilo.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
 
-<meta
-    name="description"
-    content="Crazy Chicken — confira nosso catálogo e faça seu pedido pelo WhatsApp."
->
+        :root {
+            --bg: #070707;
+            --surface: #101010;
+            --surface-2: #151515;
+            --line: rgba(255, 255, 255, .10);
+            --text: #f5f5f5;
+            --muted: #9a9a9a;
+            --red: #e50914;
+            --red-2: #ff2732;
+            --green: #25d366;
+            --max: 1180px;
+            --radius: 16px;
+        }
 
-<meta name="theme-color" content="#080808">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
 
-<link rel="stylesheet" href="style.css">
+        html {
+            scroll-behavior: smooth
+        }
 
-<!-- FONTES -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, Arial, sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
 
-<link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
->
-```
+        body.cart-open {
+            overflow: hidden
+        }
 
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        button,
+        input {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        img {
+            display: block;
+            max-width: 100%
+        }
+
+        .container {
+            width: min(var(--max), calc(100% - 40px));
+            margin: auto
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            background: rgba(7, 7, 7, .76);
+            border-bottom: 1px solid transparent;
+            backdrop-filter: blur(18px);
+            transition: .25s;
+        }
+
+        header.scrolled {
+            border-color: var(--line);
+            background: rgba(7, 7, 7, .92)
+        }
+
+        .nav {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 30px;
+            letter-spacing: 2px;
+            margin-right: auto;
+        }
+
+        .logo span {
+            color: var(--red)
+        }
+
+        .menu {
+            display: flex;
+            gap: 24px;
+            align-items: center
+        }
+
+        .menu a {
+            color: #bdbdbd;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+            transition: .2s;
+        }
+
+        .menu a:hover {
+            color: #fff
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .header-whatsapp {
+            padding: 11px 15px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .7px;
+        }
+
+        .header-whatsapp:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+
+        .cart-button {
+            position: relative;
+            width: 43px;
+            height: 43px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            font-size: 19px;
+            transition: .2s;
+        }
+
+        .cart-button:hover {
+            background: var(--red);
+            border-color: var(--red);
+            transform: translateY(-2px)
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            border-radius: 20px;
+            background: var(--red);
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .menu-mobile {
+            display: none;
+            border: 1px solid var(--line);
+            background: #111;
+            color: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 80% 35%, rgba(229, 9, 20, .23), transparent 30%),
+                radial-gradient(circle at 15% 80%, rgba(229, 9, 20, .10), transparent 28%),
+                linear-gradient(135deg, #050505 0%, #0d0d0d 52%, #090909 100%);
+        }
+
+        .hero:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: linear-gradient(to bottom, black, transparent 90%);
+        }
+
+        .hero:after {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            right: -180px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .06);
+            box-shadow: 0 0 0 80px rgba(255, 255, 255, .012), 0 0 0 160px rgba(255, 255, 255, .008);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 140px 0 80px
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #bbb;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .eyebrow:before {
+            content: "";
+            width: 28px;
+            height: 2px;
+            background: var(--red)
+        }
+
+        .hero h1 {
+            max-width: 760px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: clamp(72px, 11vw, 150px);
+            line-height: .82;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--red)
+        }
+
+        .hero-copy {
+            max-width: 570px;
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 16px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 21px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: .25s;
+        }
+
+        .btn-red {
+            background: var(--red);
+            color: #fff
+        }
+
+        .btn-red:hover {
+            background: var(--red-2);
+            transform: translateY(-2px)
+        }
+
+        .btn-outline {
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, .025)
+        }
+
+        .btn-outline:hover {
+            border-color: #777;
+            transform: translateY(-2px)
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 55px;
+            margin-top: 75px;
+            padding-top: 22px;
+            border-top: 1px solid var(--line);
+            max-width: 650px;
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-family: "Bebas Neue";
+            font-size: 30px;
+            letter-spacing: 1px
+        }
+
+        .hero-stat span {
+            font-size: 9px;
+            color: #777;
+            letter-spacing: 1.3px;
+            font-weight: 800
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 110px 0
+        }
+
+        .section-dark {
+            background: #0a0a0a
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 30px;
+            margin-bottom: 42px
+        }
+
+        .section-tag {
+            color: var(--red);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section h2 {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: clamp(48px, 7vw, 76px);
+            line-height: .9;
+            letter-spacing: 1px;
+        }
+
+        .section-intro {
+            max-width: 470px;
+            color: #858585;
+            font-size: 14px
+        }
+
+        /* CATEGORIES */
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr 1fr;
+            gap: 14px;
+        }
+
+        .category {
+            min-height: 330px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background:
+                radial-gradient(circle at 70% 25%, rgba(229, 9, 20, .32), transparent 34%),
+                linear-gradient(145deg, #171717, #090909);
+        }
+
+        .category:first-child {
+            min-height: 420px
+        }
+
+        .category:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 30%, rgba(229, 9, 20, .12), transparent 70%);
+        }
+
+        .category-number {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            color: #777;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .category-icon {
+            position: absolute;
+            right: 25px;
+            top: 28px;
+            font-size: 65px;
+            opacity: .16;
+            filter: grayscale(1);
+        }
+
+        .category-content {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 24px
+        }
+
+        .category-content small {
+            color: #777;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px
+        }
+
+        .category-content h3 {
+            font-family: "Bebas Neue";
+            font-size: 46px;
+            letter-spacing: 1px;
+            margin: 4px 0 7px
+        }
+
+        .category-content p {
+            color: #999;
+            font-size: 12px;
+            max-width: 300px
+        }
+
+        .category-link {
+            display: inline-block;
+            margin-top: 17px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .category-link:hover {
+            color: var(--red)
+        }
+
+        /* FEATURED */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .featured-card {
+            position: relative;
+            min-height: 390px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #111;
+        }
+
+        .featured-card:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 28%, rgba(229, 9, 20, .32), transparent 34%),
+                linear-gradient(180deg, #191919, #080808);
+        }
+
+        .featured-art {
+            position: absolute;
+            inset: 25px 25px auto;
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 110px;
+            opacity: .72;
+            filter: grayscale(.25);
+        }
+
+        .featured-info {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 24px
+        }
+
+        .featured-info small {
+            color: var(--red);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px
+        }
+
+        .featured-info h3 {
+            font-family: "Bebas Neue";
+            font-size: 34px;
+            letter-spacing: 1px;
+            margin: 5px 0
+        }
+
+        .featured-info p {
+            color: #777;
+            font-size: 12px
+        }
+
+        .featured-info a {
+            display: inline-block;
+            margin-top: 14px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px
+        }
+
+        /* BRAND */
+        .brand {
+            padding: 100px 0;
+            background:
+                linear-gradient(110deg, rgba(229, 9, 20, .96), rgba(155, 0, 8, .96)),
+                #b00;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand:after {
+            content: "CRAZY";
+            position: absolute;
+            right: -40px;
+            bottom: -90px;
+            font-family: "Bebas Neue";
+            font-size: 260px;
+            color: rgba(0, 0, 0, .11);
+        }
+
+        .brand-inner {
+            position: relative;
+            z-index: 1
+        }
+
+        .brand small {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px
+        }
+
+        .brand h2 {
+            font-family: "Bebas Neue";
+            font-size: clamp(58px, 9vw, 110px);
+            line-height: .82;
+            max-width: 900px;
+            margin: 15px 0;
+        }
+
+        .brand p {
+            max-width: 500px;
+            color: rgba(255, 255, 255, .78)
+        }
+
+        /* CATALOG */
+        .catalog-search {
+            width: min(600px, 100%);
+            margin: 0 auto 28px;
+            position: relative;
+        }
+
+        .catalog-search span {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            font-size: 22px
+        }
+
+        #product-search {
+            width: 100%;
+            height: 54px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #111;
+            color: #fff;
+            outline: none;
+            padding: 0 18px 0 50px;
+        }
+
+        #product-search:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(229, 9, 20, .08)
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 32px
+        }
+
+        .filter {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #111;
+            color: #888;
+            padding: 9px 15px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: .2s;
+        }
+
+        .filter:hover,
+        .filter.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: #fff
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px
+        }
+
+        .product {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: #101010;
+            transition: .28s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            border-color: rgba(229, 9, 20, .45)
+        }
+
+        .product-photo {
+            height: 290px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 50% 35%, rgba(229, 9, 20, .22), transparent 36%),
+                linear-gradient(145deg, #1a1a1a, #090909);
+            overflow: hidden;
+        }
+
+        .product-photo:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .35));
+        }
+
+        .product-art {
+            font-size: 105px;
+            opacity: .75;
+            filter: grayscale(.3)
+        }
+
+        .product-number {
+            position: absolute;
+            left: 17px;
+            top: 15px;
+            color: #777;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            z-index: 2
+        }
+
+        .product-badge {
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            background: var(--red);
+            color: #fff;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            z-index: 2
+        }
+
+        .product-details {
+            padding: 20px
+        }
+
+        .product-type {
+            color: #777;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px
+        }
+
+        .product h3 {
+            font-family: "Bebas Neue";
+            font-size: 31px;
+            letter-spacing: .7px;
+            margin: 5px 0
+        }
+
+        .product-description {
+            color: #777;
+            font-size: 12px;
+            min-height: 38px
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 18px
+        }
+
+        .product-price {
+            font-size: 19px;
+            font-weight: 800
+        }
+
+        .add-cart {
+            border: 0;
+            border-radius: 6px;
+            background: var(--red);
+            color: #fff;
+            padding: 11px 13px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: .2s;
+        }
+
+        .add-cart:hover {
+            background: var(--red-2);
+            transform: translateY(-2px)
+        }
+
+        .no-products {
+            text-align: center;
+            color: #777;
+            padding: 50px 20px
+        }
+
+        .no-products strong {
+            display: block;
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 5px
+        }
+
+        /* ABOUT */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center
+        }
+
+        .about-visual {
+            min-height: 480px;
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 35%, rgba(229, 9, 20, .3), transparent 35%),
+                linear-gradient(145deg, #191919, #080808);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual .big-mark {
+            font-family: "Bebas Neue";
+            font-size: 190px;
+            color: rgba(255, 255, 255, .06);
+            letter-spacing: 5px
+        }
+
+        .about-visual .chicken {
+            position: absolute;
+            font-size: 120px;
+            filter: grayscale(1);
+            opacity: .6
+        }
+
+        .about-copy p {
+            color: #8a8a8a;
+            margin: 20px 0;
+            max-width: 520px;
+            font-size: 14px
+        }
+
+        .about-points {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 30px
+        }
+
+        .about-point {
+            padding-top: 15px;
+            border-top: 1px solid var(--line)
+        }
+
+        .about-point strong {
+            display: block;
+            font-family: "Bebas Neue";
+            font-size: 27px
+        }
+
+        .about-point span {
+            font-size: 9px;
+            color: #666;
+            font-weight: 800;
+            letter-spacing: 1px
+        }
+
+        /* SOCIAL / CONTACT */
+        .social-box,
+        .contact-box {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #141414, #0b0b0b);
+            padding: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .social-box p,
+        .contact-box p {
+            color: #777;
+            max-width: 550px;
+            margin-top: 10px;
+            font-size: 14px
+        }
+
+        .social-link {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px
+        }
+
+        .social-link:hover {
+            color: var(--red)
+        }
+
+        .contact-section {
+            background: #0a0a0a
+        }
+
+        .whatsapp-big {
+            background: var(--green);
+            color: #061b0e;
+            border: 0
+        }
+
+        .whatsapp-big:hover {
+            background: #32df70;
+            color: #061b0e
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 50px 0 25px;
+            background: #050505
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px
+        }
+
+        .footer-logo {
+            font-family: "Bebas Neue";
+            font-size: 32px;
+            letter-spacing: 2px
+        }
+
+        .footer-logo span {
+            color: var(--red)
+        }
+
+        .footer-tag {
+            color: #666;
+            font-size: 11px;
+            margin-top: 6px
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap
+        }
+
+        .footer-links a {
+            color: #777;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .footer-links a:hover {
+            color: #fff
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            border-top: 1px solid var(--line);
+            margin-top: 40px;
+            padding-top: 20px;
+            color: #555;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        /* CART */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .76);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+        }
+
+        .cart-overlay[hidden] {
+            display: none
+        }
+
+        .cart {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: min(430px, 100%);
+            height: 100vh;
+            z-index: 999;
+            background: #0d0d0d;
+            border-left: 1px solid var(--line);
+            transform: translateX(100%);
+            transition: .35s cubic-bezier(.22, .61, .36, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -20px 0 60px rgba(0, 0, 0, .5);
+        }
+
+        .cart.open {
+            transform: translateX(0)
+        }
+
+        .cart-header {
+            height: 76px;
+            padding: 0 22px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .cart-header h2 {
+            font-family: "Bebas Neue";
+            font-size: 32px
+        }
+
+        .cart-close {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            font-size: 19px
+        }
+
+        .cart-close:hover {
+            background: var(--red);
+            border-color: var(--red)
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow: auto;
+            padding: 20px
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: 13px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .cart-item:first-child {
+            padding-top: 0
+        }
+
+        .cart-item-image {
+            width: 64px;
+            height: 70px;
+            border-radius: 7px;
+            object-fit: cover;
+            background: #191919
+        }
+
+        .cart-item-info h3 {
+            font-size: 14px;
+            margin-bottom: 4px
+        }
+
+        .cart-item-info p {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .quantity-button {
+            width: 27px;
+            height: 27px;
+            border: 1px solid var(--line);
+            background: #151515;
+            color: #fff;
+            border-radius: 4px
+        }
+
+        .quantity-button:hover {
+            border-color: var(--red)
+        }
+
+        .quantity {
+            min-width: 20px;
+            text-align: center;
+            font-size: 12px
+        }
+
+        .remove-item {
+            margin-left: auto;
+            background: transparent;
+            border: 0;
+            color: #666;
+            font-size: 11px
+        }
+
+        .remove-item:hover {
+            color: var(--red)
+        }
+
+        .cart-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 35px
+        }
+
+        .cart-empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px
+        }
+
+        .cart-empty h3 {
+            font-size: 19px;
+            margin-bottom: 5px
+        }
+
+        .cart-empty p {
+            color: #666;
+            font-size: 12px
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--line);
+            background: #111
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px
+        }
+
+        .cart-total span {
+            font-size: 10px;
+            color: #777;
+            font-weight: 800;
+            letter-spacing: 1px
+        }
+
+        .cart-total strong {
+            font-size: 23px
+        }
+
+        .cart-footer label {
+            display: block;
+            color: #888;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 7px
+        }
+
+        #customer-cep {
+            width: 100%;
+            height: 46px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            background: #090909;
+            color: #fff;
+            outline: 0;
+            padding: 0 13px
+        }
+
+        #customer-cep:focus {
+            border-color: var(--red)
+        }
+
+        .cart-footer small {
+            display: block;
+            color: #555;
+            font-size: 10px;
+            line-height: 1.4;
+            margin: 8px 0 14px
+        }
+
+        .checkout-whatsapp {
+            width: 100%;
+            height: 50px;
+            border: 0;
+            border-radius: 6px;
+            background: var(--green);
+            color: #06210f;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .8px
+        }
+
+        .checkout-whatsapp:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px)
+        }
+
+        .cart-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            z-index: 1200;
+            transform: translate(-50%, 90px);
+            opacity: 0;
+            pointer-events: none;
+            background: #fff;
+            color: #111;
+            border-radius: 7px;
+            padding: 12px 18px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .3s;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .35);
+        }
+
+        .cart-toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1
+        }
+
+        @media(max-width:900px) {
+            .menu {
+                display: none
+            }
+
+            .menu-mobile {
+                display: block
+            }
+
+            .category-grid,
+            .catalog-grid,
+            .featured-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .category:first-child {
+                grid-column: 1/-1;
+                min-height: 330px
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 35px
+            }
+
+            .about-visual {
+                min-height: 330px
+            }
+        }
+
+        @media(max-width:650px) {
+            .container {
+                width: min(100% - 28px, var(--max))
+            }
+
+            .nav {
+                min-height: 68px
+            }
+
+            .logo {
+                font-size: 27px
+            }
+
+            .header-whatsapp {
+                display: none
+            }
+
+            .hero-content {
+                padding: 120px 0 60px
+            }
+
+            .hero h1 {
+                font-size: 70px
+            }
+
+            .hero-copy {
+                font-size: 14px
+            }
+
+            .hero-stats {
+                gap: 20px;
+                justify-content: space-between
+            }
+
+            .hero-stat strong {
+                font-size: 24px
+            }
+
+            .section {
+                padding: 75px 0
+            }
+
+            .section-head {
+                display: block
+            }
+
+            .section-intro {
+                margin-top: 15px
+            }
+
+            .category-grid,
+            .catalog-grid,
+            .featured-grid {
+                grid-template-columns: 1fr
+            }
+
+            .category:first-child {
+                grid-column: auto
+            }
+
+            .social-box,
+            .contact-box {
+                padding: 30px;
+                display: block
+            }
+
+            .social-link,
+            .whatsapp-big {
+                display: inline-flex;
+                margin-top: 25px
+            }
+
+            .about-points {
+                grid-template-columns: 1fr
+            }
+
+            .footer-top,
+            .footer-bottom {
+                display: block
+            }
+
+            .footer-links {
+                margin-top: 25px
+            }
+
+            .footer-bottom p+p {
+                margin-top: 8px
+            }
+
+            .product-photo {
+                height: 250px
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+    <header id="header">
+        <div class="container nav">
+            <a class="logo" href="#inicio">CRAZY<span>CHICKEN</span></a>
 
-<header class="header">
+            <nav class="menu" id="desktop-menu">
+                <a href="#inicio">Início</a>
+                <a href="#categorias">Categorias</a>
+                <a href="#destaques">Destaques</a>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#sobre">Sobre</a>
+            </nav>
 
-```
-<div class="container nav">
+            <div class="header-actions">
+                <a class="header-whatsapp" href="https://wa.me/5544997664122" target="_blank">WHATSAPP</a>
+                <button class="cart-button" id="cart-button" aria-label="Abrir carrinho">🛒<span
+                        id="cart-count">0</span></button>
+                <button class="menu-mobile" id="menu-mobile" aria-label="Abrir menu">☰</button>
+            </div>
+        </div>
+    </header>
 
-    <a href="#inicio" class="logo">
-        CRAZY<span>CHICKEN</span>
-    </a>
+    <main>
 
-    <nav class="menu">
+        <section class="hero" id="inicio">
+            <div class="container hero-content">
+                <div class="eyebrow">CRAZY CHICKEN</div>
+                <h1>SUA VIBE.<br><span>SEU ESTILO.</span></h1>
+                <p class="hero-copy">Produtos e acessórios selecionados para quem não gosta do comum. Escolha sua vibe,
+                    monte seu pedido e finalize diretamente pelo WhatsApp.</p>
 
-        <a href="#inicio">Início</a>
-        <a href="#categorias">Categorias</a>
-        <a href="#destaques">Destaques</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#sobre">Sobre</a>
+                <div class="hero-actions">
+                    <a class="btn btn-red" href="#catalogo">Explorar catálogo</a>
+                    <a class="btn btn-outline" href="https://wa.me/5544997664122" target="_blank">Falar conosco</a>
+                </div>
 
-    </nav>
+                <div class="hero-stats">
+                    <div class="hero-stat"><strong>01</strong><span>CATÁLOGO</span></div>
+                    <div class="hero-stat"><strong>24/7</strong><span>ATENDIMENTO</span></div>
+                    <div class="hero-stat"><strong>100%</strong><span>CRAZY</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="categorias">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <div class="section-tag">EXPLORE</div>
+                        <h2>ESCOLHA SUA VIBE.</h2>
+                    </div>
+                    <p class="section-intro">Navegue pelas categorias e encontre os produtos que combinam com você.</p>
+                </div>
+
+                <div class="category-grid">
+                    <article class="category">
+                        <span class="category-number">01 / KITS</span>
+                        <span class="category-icon">📦</span>
+                        <div class="category-content">
+                            <small>SELEÇÃO</small>
+                            <h3>KITS</h3>
+                            <p>Combinações selecionadas pela Crazy Chicken.</p>
+                            <a class="category-link" href="#catalogo" data-category-link="kits">EXPLORAR →</a>
+                        </div>
+                    </article>
+
+                    <article class="category">
+                        <span class="category-number">02 / SEDAS</span>
+                        <span class="category-icon">〰</span>
+                        <div class="category-content">
+                            <small>MODELOS</small>
+                            <h3>SEDAS</h3>
+                            <p>Modelos selecionados para o catálogo.</p>
+                            <a class="category-link" href="#catalogo" data-category-link="sedas">VER PRODUTOS →</a>
+                        </div>
+                    </article>
+
+                    <article class="category">
+                        <span class="category-number">03 / STYLE</span>
+                        <span class="category-icon">✦</span>
+                        <div class="category-content">
+                            <small>EXTRAS</small>
+                            <h3>ACESSÓRIOS</h3>
+                            <p>Detalhes que completam seu estilo.</p>
+                            <a class="category-link" href="#catalogo" data-category-link="acessorios">VER PRODUTOS →</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" id="destaques">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <div class="section-tag">SELEÇÃO DA CASA</div>
+                        <h2>DESTAQUES CRAZY.</h2>
+                    </div>
+                    <a class="category-link" href="#catalogo">VER CATÁLOGO COMPLETO →</a>
+                </div>
+
+                <div class="featured-grid">
+                    <article class="featured-card">
+                        <div class="featured-art">📦</div>
+                        <div class="featured-info">
+                            <small>KIT</small>
+                            <h3>Kit Crazy #01</h3>
+                            <p>Um dos destaques da Crazy Chicken.</p>
+                            <a href="#catalogo">VER NO CATÁLOGO →</a>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-art">〰</div>
+                        <div class="featured-info">
+                            <small>SEDAS</small>
+                            <h3>Modelos selecionados</h3>
+                            <p>Confira os modelos disponíveis.</p>
+                            <a href="#catalogo">VER NO CATÁLOGO →</a>
+                        </div>
+                    </article>
+
+                    <article class="featured-card">
+                        <div class="featured-art">✦</div>
+                        <div class="featured-info">
+                            <small>ACESSÓRIOS</small>
+                            <h3>Crazy Accessories</h3>
+                            <p>Confira as novidades disponíveis.</p>
+                            <a href="#catalogo">VER NO CATÁLOGO →</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="brand">
+            <div class="container brand-inner">
+                <small>CRAZY CHICKEN</small>
+                <h2>NÃO É SÓ UM PRODUTO.<br>É PERSONALIDADE.</h2>
+                <p>Uma seleção feita para quem tem atitude, identidade e não quer seguir o comum.</p>
+            </div>
+        </section>
+
+        <section class="section" id="catalogo">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <div class="section-tag">CATÁLOGO</div>
+                        <h2>ENCONTRE O SEU.</h2>
+                    </div>
+                    <p class="section-intro">Pesquise, filtre, adicione ao carrinho e finalize seu pedido pelo WhatsApp.
+                    </p>
+                </div>
+
+                <div class="catalog-search">
+                    <span>⌕</span>
+                    <input id="product-search" type="search" placeholder="Buscar produtos..." autocomplete="off">
+                </div>
+
+                <div class="filters">
+                    <button class="filter active" data-filter="todos">Todos</button>
+                    <button class="filter" data-filter="kits">Kits</button>
+                    <button class="filter" data-filter="sedas">Sedas</button>
+                    <button class="filter" data-filter="acessorios">Acessórios</button>
+                    <button class="filter" data-filter="novidades">Novidades</button>
+                </div>
+
+                <div class="catalog-grid" id="catalog-grid">
+
+                    <article class="product" data-category="kits" data-new="true" data-name="Kit Crazy 01"
+                        data-price="40">
+                        <div class="product-photo">
+                            <span class="product-number">01</span><span class="product-badge">NOVO</span>
+                            <div class="product-art">📦</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">KITS</div>
+                            <h3>Kit Crazy #01</h3>
+                            <p class="product-description">Kit exclusivo Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 40,00</strong>
+                                <button class="add-cart" data-product="Kit Crazy #01">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product" data-category="sedas" data-new="false" data-name="Seda Premium"
+                        data-price="15">
+                        <div class="product-photo">
+                            <span class="product-number">02</span>
+                            <div class="product-art">〰</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">SEDAS</div>
+                            <h3>Seda Premium</h3>
+                            <p class="product-description">Modelo selecionado pela Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 15,00</strong>
+                                <button class="add-cart" data-product="Seda Premium">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product" data-category="acessorios" data-new="true" data-name="Crazy Accessory"
+                        data-price="25">
+                        <div class="product-photo">
+                            <span class="product-number">03</span><span class="product-badge">NOVO</span>
+                            <div class="product-art">✦</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">ACESSÓRIOS</div>
+                            <h3>Crazy Accessory</h3>
+                            <p class="product-description">Acessório selecionado Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 25,00</strong>
+                                <button class="add-cart" data-product="Crazy Accessory">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product" data-category="kits" data-new="false" data-name="Kit Crazy 02"
+                        data-price="50">
+                        <div class="product-photo">
+                            <span class="product-number">04</span>
+                            <div class="product-art">📦</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">KITS</div>
+                            <h3>Kit Crazy #02</h3>
+                            <p class="product-description">Kit exclusivo Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 50,00</strong>
+                                <button class="add-cart" data-product="Kit Crazy #02">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product" data-category="acessorios" data-new="true" data-name="Crazy Style"
+                        data-price="30">
+                        <div class="product-photo">
+                            <span class="product-number">05</span><span class="product-badge">NOVO</span>
+                            <div class="product-art">✦</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">ACESSÓRIOS</div>
+                            <h3>Crazy Style</h3>
+                            <p class="product-description">Produto exclusivo Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 30,00</strong>
+                                <button class="add-cart" data-product="Crazy Style">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product" data-category="sedas" data-new="false" data-name="Seda Selection"
+                        data-price="20">
+                        <div class="product-photo">
+                            <span class="product-number">06</span>
+                            <div class="product-art">〰</div>
+                        </div>
+                        <div class="product-details">
+                            <div class="product-type">SEDAS</div>
+                            <h3>Seda Selection</h3>
+                            <p class="product-description">Modelo selecionado pela Crazy Chicken.</p>
+                            <div class="product-bottom">
+                                <strong class="product-price">R$ 20,00</strong>
+                                <button class="add-cart" data-product="Seda Selection">ADICIONAR +</button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div class="no-products" id="no-products" hidden>
+                    <strong>Nenhum produto encontrado.</strong>
+                    Tente pesquisar outro produto ou categoria.
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="sobre">
+            <div class="container about-grid">
+                <div class="about-visual">
+                    <div class="big-mark">CRAZY</div>
+                    <div class="chicken">🐔</div>
+                </div>
+
+                <div class="about-copy">
+                    <div class="section-tag">SOBRE A MARCA</div>
+                    <h2>BEM-VINDO À CRAZY.</h2>
+                    <p>A Crazy Chicken nasceu com uma proposta simples: fugir do comum. Aqui você encontra produtos e
+                        acessórios selecionados com identidade própria, atendimento direto e uma experiência diferente.
+                    </p>
+
+                    <div class="about-points">
+                        <div class="about-point"><strong>01</strong><span>IDENTIDADE</span></div>
+                        <div class="about-point"><strong>02</strong><span>SELEÇÃO</span></div>
+                        <div class="about-point"><strong>03</strong><span>ATITUDE</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark">
+            <div class="container">
+                <div class="social-box">
+                    <div>
+                        <div class="section-tag">SOCIAL</div>
+                        <h2>SIGA A CRAZY.</h2>
+                        <p>Acompanhe novidades, produtos, lançamentos e tudo que acontece na Crazy Chicken.</p>
+                    </div>
+                    <a class="social-link" href="https://www.instagram.com/crazy_chickenlb/"
+                        target="_blank">@CRAZY_CHICKENLB →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section contact-section">
+            <div class="container">
+                <div class="contact-box">
+                    <div>
+                        <div class="section-tag">VAMOS CONVERSAR?</div>
+                        <h2>CHAMA NO WHATS.</h2>
+                        <p>Quer saber mais sobre nossos produtos? É só mandar uma mensagem.</p>
+                    </div>
+                    <a class="btn whatsapp-big" href="https://wa.me/5544997664122" target="_blank">◉ FALAR NO
+                        WHATSAPP</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-logo">CRAZY<span>CHICKEN</span></div>
+                    <div class="footer-tag">SUA VIBE. SEU ESTILO.</div>
+                </div>
+                <div class="footer-links">
+                    <a href="#inicio">Início</a>
+                    <a href="#categorias">Categorias</a>
+                    <a href="#catalogo">Catálogo</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="https://www.instagram.com/crazy_chickenlb/" target="_blank">Instagram</a>
+                    <a href="https://wa.me/5544997664122" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Crazy Chicken. Todos os direitos reservados.</p>
+                <p>Sua vibe. Seu estilo.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- CARRINHO -->
+    <div class="cart-overlay" id="cart-overlay" hidden></div>
 
-    <button
-        class="cart-button"
-        id="cart-button"
-        type="button"
-        aria-label="Abrir carrinho"
-    >
-        🛒
-        <span id="cart-count">0</span>
-    </button>
-
-    <a
-        href="https://wa.me/5544997664122?text=Olá%20Crazy%20Chicken!%20Vim%20pelo%20site."
-        target="_blank"
-        rel="noopener noreferrer"
-        class="header-whatsapp"
-    >
-        WhatsApp
-    </a>
-
-    <button
-        class="menu-mobile"
-        aria-label="Abrir menu"
-        type="button"
-    >
-        ☰
-    </button>
-
-</div>
-```
-
-</header>
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero" id="inicio">
-
-```
-<div class="hero-bg"></div>
-<div class="hero-noise"></div>
-
-<div class="container hero-content">
-
-    <div class="hero-copy">
-
-        <div class="eyebrow">
-            <span></span>
-            CRAZY CHICKEN
-            <span></span>
+    <aside class="cart" id="cart" aria-label="Carrinho de compras">
+        <div class="cart-header">
+            <h2>SEU PEDIDO</h2>
+            <button class="cart-close" id="cart-close" aria-label="Fechar carrinho">×</button>
         </div>
 
-        <h1>
-            SUA VIBE.
-            <br>
-            SEU
-            <em>ESTILO.</em>
-        </h1>
+        <div class="cart-items" id="cart-items"></div>
 
-        <p>
-            Produtos e acessórios selecionados
-            para quem não gosta do comum.
-        </p>
-
-        <div class="hero-actions">
-
-            <a
-                href="#catalogo"
-                class="btn btn-red"
-            >
-                Explorar catálogo
-            </a>
-
-            <a
-                href="https://wa.me/5544997664122?text=Olá%20Crazy%20Chicken!%20Quero%20conhecer%20o%20catálogo."
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-outline"
-            >
-                Falar conosco
-            </a>
-
+        <div class="cart-empty" id="cart-empty">
+            <div class="cart-empty-icon">🛒</div>
+            <h3>Seu carrinho está vazio</h3>
+            <p>Adicione alguns produtos para continuar.</p>
+            <button class="btn btn-outline" id="continue-shopping" style="margin-top:18px">CONTINUAR COMPRANDO</button>
         </div>
 
-        <div class="hero-stats">
-
-            <div>
-                <strong>01</strong>
-                <span>CATÁLOGO</span>
+        <div class="cart-footer" id="cart-footer" hidden>
+            <div class="cart-total">
+                <span>TOTAL</span>
+                <strong id="cart-total">R$ 0,00</strong>
             </div>
 
-            <div>
-                <strong>24/7</strong>
-                <span>ATENDIMENTO</span>
-            </div>
+            <label for="customer-cep">CEP PARA ENTREGA</label>
+            <input type="text" id="customer-cep" placeholder="00000-000" maxlength="9" inputmode="numeric">
+            <small>O valor e a disponibilidade da entrega dependem do CEP informado.</small>
 
-            <div>
-                <strong>100%</strong>
-                <span>CRAZY</span>
-            </div>
-
+            <button class="checkout-whatsapp" id="checkout-whatsapp">FINALIZAR PELO WHATSAPP</button>
         </div>
+    </aside>
 
-    </div>
+    <div class="cart-toast" id="cart-toast">Produto adicionado ao carrinho!</div>
 
-</div>
+    <script>
+        const WHATSAPP = "5544997664122";
 
-<div class="hero-bottom">
-    <span>SCROLL</span>
-    <div></div>
-</div>
-```
+        const cart = document.getElementById("cart");
+        const cartOverlay = document.getElementById("cart-overlay");
+        const cartButton = document.getElementById("cart-button");
+        const cartClose = document.getElementById("cart-close");
+        const cartItems = document.getElementById("cart-items");
+        const cartEmpty = document.getElementById("cart-empty");
+        const cartFooter = document.getElementById("cart-footer");
+        const cartCount = document.getElementById("cart-count");
+        const cartTotal = document.getElementById("cart-total");
+        const toast = document.getElementById("cart-toast");
+        const cepInput = document.getElementById("customer-cep");
+        const searchInput = document.getElementById("product-search");
+        const products = [...document.querySelectorAll(".product")];
+        const filters = [...document.querySelectorAll(".filter")];
 
-</section>
+        let carrinho = [];
+        let categoriaAtual = "todos";
 
-<!-- =====================================================
-     CATEGORIAS
-===================================================== -->
+        function dinheiro(valor) {
+            return valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+        }
 
-<section class="categories section" id="categorias">
+        function abrirCarrinho() {
+            cart.classList.add("open");
+            cartOverlay.hidden = false;
+            document.body.classList.add("cart-open");
+        }
 
-```
-<div class="container">
+        function fecharCarrinho() {
+            cart.classList.remove("open");
+            cartOverlay.hidden = true;
+            document.body.classList.remove("cart-open");
+        }
 
-    <div class="section-heading">
+        function mostrarToast(texto) {
+            toast.textContent = texto;
+            toast.classList.add("show");
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+        }
 
-        <div>
+        function atualizarCarrinho() {
+            cartItems.innerHTML = "";
 
-            <span class="section-tag">
-                EXPLORE
-            </span>
+            if (carrinho.length === 0) {
+                cartEmpty.style.display = "flex";
+                cartFooter.hidden = true;
+            } else {
+                cartEmpty.style.display = "none";
+                cartFooter.hidden = false;
 
-            <h2>
-                ESCOLHA SUA
-                <strong>VIBE.</strong>
-            </h2>
-
-        </div>
-
-        <p>
-            Navegue pelas categorias e encontre
-            o que combina com você.
-        </p>
-
-    </div>
-
-    <div class="category-grid">
-
-        <a
-            href="#catalogo"
-            class="category-card category-large category-link"
-            data-category-link="kits"
-        >
-
-            <img
-                src="img/categoria-kits.jpg"
-                alt="Kits"
-            >
-
-            <div class="category-overlay"></div>
-
-            <div class="category-content">
-
-                <span>01 / KITS</span>
-
-                <h3>KITS</h3>
-
-                <p>
-                    Confira os kits disponíveis.
-                </p>
-
-                <b>
-                    EXPLORAR →
-                </b>
-
+                carrinho.forEach((item, index) => {
+                    const div = document.createElement("div");
+                    div.className = "cart-item";
+                    div.innerHTML = `
+          <div class="cart-item-image" style="display:flex;align-items:center;justify-content:center;font-size:30px">🐔</div>
+          <div class="cart-item-info">
+            <h3>${item.nome}</h3>
+            <p>${dinheiro(item.preco)} cada</p>
+            <div class="cart-item-controls">
+              <button class="quantity-button" data-action="minus" data-index="${index}">−</button>
+              <span class="quantity">${item.quantidade}</span>
+              <button class="quantity-button" data-action="plus" data-index="${index}">+</button>
+              <button class="remove-item" data-remove="${index}">REMOVER</button>
             </div>
-
-        </a>
-
-
-        <a
-            href="#catalogo"
-            class="category-card category-link"
-            data-category-link="sedas"
-        >
-
-            <img
-                src="img/categoria-sedas.jpg"
-                alt="Sedas"
-            >
-
-            <div class="category-overlay"></div>
-
-            <div class="category-content">
-
-                <span>02 / ACESSÓRIOS</span>
-
-                <h3>SEDAS</h3>
-
-                <b>
-                    VER PRODUTOS →
-                </b>
-
-            </div>
-
-        </a>
-
-
-        <a
-            href="#catalogo"
-            class="category-card category-link"
-            data-category-link="acessorios"
-        >
-
-            <img
-                src="img/categoria-acessorios.jpg"
-                alt="Acessórios"
-            >
-
-            <div class="category-overlay"></div>
-
-            <div class="category-content">
-
-                <span>03 / STYLE</span>
-
-                <h3>ACESSÓRIOS</h3>
-
-                <b>
-                    VER PRODUTOS →
-                </b>
-
-            </div>
-
-        </a>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     DESTAQUES
-===================================================== -->
-
-<section class="featured section" id="destaques">
-
-```
-<div class="container">
-
-    <div class="section-heading">
-
-        <div>
-
-            <span class="section-tag">
-                SELEÇÃO DA CASA
-            </span>
-
-            <h2>
-                DESTAQUES
-                <strong>CRAZY.</strong>
-            </h2>
-
-        </div>
-
-        <a
-            href="#catalogo"
-            class="text-link"
-        >
-            VER CATÁLOGO COMPLETO →
-        </a>
-
-    </div>
-
-
-    <div class="featured-grid">
-
-        <article class="featured-card featured-main">
-
-            <div class="featured-image">
-
-                <img
-                    src="img/destaque-1.jpg"
-                    alt="Kit Crazy"
-                >
-
-                <span class="badge">
-                    DESTAQUE
-                </span>
-
-            </div>
-
-            <div class="featured-info">
-
-                <span class="product-type">
-                    KIT
-                </span>
-
-                <h3>
-                    Kit Crazy #01
-                </h3>
-
-                <p>
-                    Um dos destaques da Crazy Chicken.
-                </p>
-
-                <a
-                    href="#catalogo"
-                    class="product-cta"
-                >
-                    VER NO CATÁLOGO →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <article class="featured-card">
-
-            <div class="featured-image">
-
-                <img
-                    src="img/destaque-2.jpg"
-                    alt="Sedas"
-                >
-
-            </div>
-
-            <div class="featured-info">
-
-                <span class="product-type">
-                    SEDAS
-                </span>
-
-                <h3>
-                    Modelos selecionados
-                </h3>
-
-                <p>
-                    Confira os modelos disponíveis.
-                </p>
-
-                <a
-                    href="#catalogo"
-                    class="product-cta"
-                >
-                    VER NO CATÁLOGO →
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <article class="featured-card">
-
-            <div class="featured-image">
-
-                <img
-                    src="img/destaque-3.jpg"
-                    alt="Acessórios"
-                >
-
-            </div>
-
-            <div class="featured-info">
-
-                <span class="product-type">
-                    ACESSÓRIOS
-                </span>
-
-                <h3>
-                    Crazy Accessories
-                </h3>
-
-                <p>
-                    Confira as novidades disponíveis.
-                </p>
-
-                <a
-                    href="#catalogo"
-                    class="product-cta"
-                >
-                    VER NO CATÁLOGO →
-                </a>
-
-            </div>
-
-        </article>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     BANNER
-===================================================== -->
-
-<section class="brand-section">
-
-```
-<div class="brand-bg"></div>
-
-<div class="container brand-content">
-
-    <span>
-        CRAZY CHICKEN
-    </span>
-
-    <h2>
-        NÃO É SÓ UM PRODUTO.
-        <br>
-        É
-        <strong>PERSONALIDADE.</strong>
-    </h2>
-
-    <p>
-        Uma seleção feita para quem tem atitude.
-    </p>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     CATÁLOGO
-===================================================== -->
-
-<section class="catalog section" id="catalogo">
-
-```
-<div class="container">
-
-    <div class="section-heading">
-
-        <div>
-
-            <span class="section-tag">
-                CATÁLOGO
-            </span>
-
-            <h2>
-                ENCONTRE O
-                <strong>SEU.</strong>
-            </h2>
-
-        </div>
-
-        <p>
-            Adicione seus produtos ao carrinho
-            e finalize seu pedido pelo WhatsApp.
-        </p>
-
-    </div>
-
-
-    <!-- =================================================
-         BUSCA
-    ================================================== -->
-
-    <div class="catalog-search">
-
-        <div class="search-box">
-
-            <span>⌕</span>
-
-            <input
-                type="search"
-                id="product-search"
-                placeholder="Buscar produtos..."
-                autocomplete="off"
-            >
-
-        </div>
-
-    </div>
-
-
-    <!-- =================================================
-         FILTROS
-    ================================================== -->
-
-    <div class="filters">
-
-        <button
-            class="filter active"
-            type="button"
-            data-filter="todos"
-        >
-            TODOS
-        </button>
-
-        <button
-            class="filter"
-            type="button"
-            data-filter="kits"
-        >
-            KITS
-        </button>
-
-        <button
-            class="filter"
-            type="button"
-            data-filter="sedas"
-        >
-            SEDAS
-        </button>
-
-        <button
-            class="filter"
-            type="button"
-            data-filter="acessorios"
-        >
-            ACESSÓRIOS
-        </button>
-
-        <button
-            class="filter"
-            type="button"
-            data-filter="novidades"
-        >
-            NOVIDADES
-        </button>
-
-    </div>
-
-
-    <!-- =================================================
-         PRODUTOS
-    ================================================== -->
-
-    <div class="catalog-grid" id="catalog-grid">
-
-
-        <!-- PRODUTO 01 -->
-
-        <article
-            class="product"
-            data-category="kits"
-            data-new="true"
-            data-name="Kit Crazy 01"
-            data-price="40"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-1.jpg"
-                    alt="Kit Crazy 01"
-                >
-
-                <span class="product-number">
-                    01
-                </span>
-
-                <span class="product-badge">
-                    NOVO
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>KITS</span>
-
-                <h3>
-                    Kit Crazy #01
-                </h3>
-
-                <p>
-                    Kit exclusivo Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 40,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Kit Crazy #01"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUTO 02 -->
-
-        <article
-            class="product"
-            data-category="sedas"
-            data-new="false"
-            data-name="Seda Premium"
-            data-price="15"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-2.jpg"
-                    alt="Seda Premium"
-                >
-
-                <span class="product-number">
-                    02
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>SEDAS</span>
-
-                <h3>
-                    Seda Premium
-                </h3>
-
-                <p>
-                    Modelo selecionado pela Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 15,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Seda Premium"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUTO 03 -->
-
-        <article
-            class="product"
-            data-category="acessorios"
-            data-new="true"
-            data-name="Crazy Accessory"
-            data-price="25"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-3.jpg"
-                    alt="Crazy Accessory"
-                >
-
-                <span class="product-number">
-                    03
-                </span>
-
-                <span class="product-badge">
-                    NOVO
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>ACESSÓRIOS</span>
-
-                <h3>
-                    Crazy Accessory
-                </h3>
-
-                <p>
-                    Acessório selecionado Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 25,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Crazy Accessory"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUTO 04 -->
-
-        <article
-            class="product"
-            data-category="kits"
-            data-new="false"
-            data-name="Kit Crazy 02"
-            data-price="50"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-4.jpg"
-                    alt="Kit Crazy 02"
-                >
-
-                <span class="product-number">
-                    04
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>KITS</span>
-
-                <h3>
-                    Kit Crazy #02
-                </h3>
-
-                <p>
-                    Kit exclusivo Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 50,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Kit Crazy #02"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUTO 05 -->
-
-        <article
-            class="product"
-            data-category="acessorios"
-            data-new="true"
-            data-name="Crazy Style"
-            data-price="30"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-5.jpg"
-                    alt="Crazy Style"
-                >
-
-                <span class="product-number">
-                    05
-                </span>
-
-                <span class="product-badge">
-                    NOVO
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>ACESSÓRIOS</span>
-
-                <h3>
-                    Crazy Style
-                </h3>
-
-                <p>
-                    Produto exclusivo Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 30,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Crazy Style"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUTO 06 -->
-
-        <article
-            class="product"
-            data-category="sedas"
-            data-new="false"
-            data-name="Seda Selection"
-            data-price="20"
-        >
-
-            <div class="product-photo">
-
-                <img
-                    src="img/produto-6.jpg"
-                    alt="Seda Selection"
-                >
-
-                <span class="product-number">
-                    06
-                </span>
-
-            </div>
-
-            <div class="product-details">
-
-                <span>SEDAS</span>
-
-                <h3>
-                    Seda Selection
-                </h3>
-
-                <p>
-                    Modelo selecionado pela Crazy Chicken.
-                </p>
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        R$ 20,00
-                    </strong>
-
-                    <button
-                        class="add-cart"
-                        type="button"
-                        data-product="Seda Selection"
-                    >
-                        ADICIONAR +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </article>
-
-    </div>
-
-
-    <!-- MENSAGEM QUANDO NÃO ENCONTRAR -->
-
-    <div
-        class="no-products"
-        id="no-products"
-        hidden
-    >
-        <h3>Nenhum produto encontrado.</h3>
-
-        <p>
-            Tente pesquisar outro produto ou categoria.
-        </p>
-    </div>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     SOBRE
-===================================================== -->
-
-<section class="about section" id="sobre">
-
-```
-<div class="container about-grid">
-
-    <div class="about-visual">
-
-        <div class="about-circle">
-            🐔
-        </div>
-
-        <span class="about-vertical">
-            EST. CRAZY CHICKEN
-        </span>
-
-    </div>
-
-    <div class="about-copy">
-
-        <span class="section-tag">
-            SOBRE A MARCA
-        </span>
-
-        <h2>
-            BEM-VINDO À
-            <strong>CRAZY.</strong>
-        </h2>
-
-        <p>
-            A Crazy Chicken nasceu com uma proposta simples:
-            fugir do comum.
-        </p>
-
-        <p>
-            Aqui você encontra produtos e acessórios
-            selecionados com identidade própria,
-            atendimento direto e uma experiência diferente.
-        </p>
-
-        <div class="about-line"></div>
-
-        <div class="about-points">
-
-            <div>
-                <strong>01</strong>
-                <span>IDENTIDADE</span>
-            </div>
-
-            <div>
-                <strong>02</strong>
-                <span>SELEÇÃO</span>
-            </div>
-
-            <div>
-                <strong>03</strong>
-                <span>ATITUDE</span>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     INSTAGRAM
-===================================================== -->
-
-<section class="instagram">
-
-```
-<div class="instagram-grid">
-
-    <div class="instagram-copy">
-
-        <span class="section-tag">
-            SOCIAL
-        </span>
-
-        <h2>
-            SIGA A
-            <strong>CRAZY.</strong>
-        </h2>
-
-        <p>
-            Acompanhe novidades, produtos,
-            lançamentos e tudo que acontece
-            na Crazy Chicken.
-        </p>
-
-        <a
-            href="https://www.instagram.com/crazy_chickenlb/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-red"
-        >
-            @crazy_chickenlb
-        </a>
-
-    </div>
-
-    <a
-        href="https://www.instagram.com/crazy_chickenlb/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="instagram-single"
-    >
-
-        <img
-            src="img/instagram.jpg"
-            alt="Instagram Crazy Chicken"
-        >
-
-        <div class="instagram-overlay">
-
-            <span>
-                INSTAGRAM
-            </span>
-
-            <strong>
-                @crazy_chickenlb
-            </strong>
-
-            <b>
-                VISITAR PERFIL →
-            </b>
-
-        </div>
-
-    </a>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     CONTATO
-===================================================== -->
-
-<section class="contact section">
-
-```
-<div class="container">
-
-    <div class="contact-box">
-
-        <div>
-
-            <span class="section-tag">
-                VAMOS CONVERSAR?
-            </span>
-
-            <h2>
-                CHAMA NO
-                <strong>WHATS.</strong>
-            </h2>
-
-            <p>
-                Quer saber mais sobre nossos produtos?
-                É só mandar uma mensagem.
-            </p>
-
-        </div>
-
-        <a
-            href="https://wa.me/5544997664122?text=Olá%20Crazy%20Chicken!%20Vim%20pelo%20site%20e%20quero%20saber%20mais."
-            target="_blank"
-            rel="noopener noreferrer"
-            class="whatsapp-big"
-        >
-            <span>◉</span>
-            FALAR NO WHATSAPP
-        </a>
-
-    </div>
-
-</div>
-```
-
-</section>
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-```
-<div class="container footer">
-
-    <div>
-
-        <a href="#inicio" class="logo">
-            CRAZY<span>CHICKEN</span>
-        </a>
-
-        <p>
-            SUA VIBE. SEU ESTILO.
-        </p>
-
-    </div>
-
-    <div class="footer-links">
-
-        <a href="#inicio">Início</a>
-        <a href="#categorias">Categorias</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#sobre">Sobre</a>
-
-    </div>
-
-    <div>
-
-        <a
-            href="https://www.instagram.com/crazy_chickenlb/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="instagram-link"
-        >
-            Instagram
-        </a>
-
-        <br>
-
-        <a
-            href="https://wa.me/5544997664122"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="instagram-link"
-        >
-            WhatsApp
-        </a>
-
-    </div>
-
-</div>
-
-<div class="footer-bottom">
-
-    <div class="container">
-
-        <span>
-            © 2026 CRAZY CHICKEN
-        </span>
-
-        <span>
-            TODOS OS DIREITOS RESERVADOS
-        </span>
-
-    </div>
-
-</div>
-```
-
-</footer>
-
-<!-- =====================================================
-     CARRINHO
-===================================================== -->
-
-<div
-    class="cart-overlay"
-    id="cart-overlay"
-    hidden
-></div>
-
-<aside
-    class="cart"
-    id="cart"
-    aria-label="Carrinho de compras"
->
-
-```
-<div class="cart-header">
-
-    <div>
-
-        <span class="section-tag">
-            SEU PEDIDO
-        </span>
-
-        <h2>
-            CARRINHO
-        </h2>
-
-    </div>
-
-    <button
-        id="close-cart"
-        type="button"
-        aria-label="Fechar carrinho"
-    >
-        ×
-    </button>
-
-</div>
-
-
-<div
-    class="cart-items"
-    id="cart-items"
->
-    <!-- JS adiciona os produtos aqui -->
-</div>
-
-
-<div
-    class="cart-empty"
-    id="cart-empty"
->
-
-    <div class="cart-empty-icon">
-        🛒
-    </div>
-
-    <h3>
-        Seu carrinho está vazio
-    </h3>
-
-    <p>
-        Adicione alguns produtos para continuar.
-    </p>
-
-    <button
-        type="button"
-        id="continue-shopping"
-    >
-        CONTINUAR COMPRANDO
-    </button>
-
-</div>
-
-
-<div
-    class="cart-footer"
-    id="cart-footer"
-    hidden
->
-
-    <div class="cart-total">
-
-        <span>
-            TOTAL
-        </span>
-
-        <strong id="cart-total">
-            R$ 0,00
-        </strong>
-
-    </div>
-
-
-    <label for="customer-cep">
-        CEP PARA ENTREGA
-    </label>
-
-    <input
-        type="text"
-        id="customer-cep"
-        placeholder="00000-000"
-        maxlength="9"
-        inputmode="numeric"
-    >
-
-    <small>
-        O valor e a disponibilidade da entrega
-        dependem do CEP informado.
-    </small>
-
-
-    <button
-        type="button"
-        class="checkout-whatsapp"
-        id="checkout-whatsapp"
-    >
-        FINALIZAR PELO WHATSAPP
-    </button>
-
-</div>
-```
-
-</aside>
-
-<!-- =====================================================
-     NOTIFICAÇÃO
-===================================================== -->
-
-<div
-    class="cart-toast"
-    id="cart-toast"
-    role="status"
-    aria-live="polite"
->
-    Produto adicionado ao carrinho!
-</div>
-
-<!-- =====================================================
-     WHATSAPP FLUTUANTE
-===================================================== -->
-
-<a
-href="https://wa.me/5544997664122?text=Olá%20Crazy%20Chicken!%20Vim%20pelo%20site."
-target="_blank"
-rel="noopener noreferrer"
-class="whatsapp-float"
-aria-label="Falar com a Crazy Chicken pelo WhatsApp"
-
->
-
-```
-◉
-```
-
-</a>
-
-<!-- JAVASCRIPT -->
-
-<script src="script.js"></script>
+          </div>
+        `;
+                    cartItems.appendChild(div);
+                });
+            }
+
+            const quantidade = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            const total = carrinho.reduce((total, item) => total + item.preco * item.quantidade, 0);
+
+            cartCount.textContent = quantidade;
+            cartTotal.textContent = dinheiro(total);
+        }
+
+        function adicionarProduto(nome, preco) {
+            const existente = carrinho.find(item => item.nome === nome);
+
+            if (existente) {
+                existente.quantidade++;
+            } else {
+                carrinho.push({nome, preco, quantidade: 1});
+            }
+
+            atualizarCarrinho();
+            abrirCarrinho();
+            mostrarToast("Produto adicionado ao carrinho!");
+        }
+
+        document.querySelectorAll(".add-cart").forEach(botao => {
+            botao.addEventListener("click", () => {
+                const produto = botao.closest(".product");
+                const nome = produto.dataset.name;
+                const preco = Number(produto.dataset.price);
+                adicionarProduto(nome, preco);
+            });
+        });
+
+        cartItems.addEventListener("click", event => {
+            const botao = event.target.closest("button");
+            if (!botao) return;
+
+            const index = Number(botao.dataset.index);
+
+            if (botao.dataset.action === "plus") carrinho[index].quantidade++;
+            if (botao.dataset.action === "minus") {
+                carrinho[index].quantidade--;
+                if (carrinho[index].quantidade <= 0) carrinho.splice(index, 1);
+            }
+            if (botao.dataset.remove !== undefined) carrinho.splice(Number(botao.dataset.remove), 1);
+
+            atualizarCarrinho();
+        });
+
+        cartButton.addEventListener("click", abrirCarrinho);
+        cartClose.addEventListener("click", fecharCarrinho);
+        cartOverlay.addEventListener("click", fecharCarrinho);
+        document.getElementById("continue-shopping").addEventListener("click", fecharCarrinho);
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") fecharCarrinho();
+        });
+
+        function filtrar() {
+            const termo = searchInput.value.toLowerCase().trim();
+            let encontrados = 0;
+
+            products.forEach(produto => {
+                const nome = produto.dataset.name.toLowerCase();
+                const categoria = produto.dataset.category;
+                const novidade = produto.dataset.new === "true";
+
+                const bateBusca = nome.includes(termo);
+                const bateCategoria =
+                    categoriaAtual === "todos" ||
+                    categoria === categoriaAtual ||
+                    (categoriaAtual === "novidades" && novidade);
+
+                const mostrar = bateBusca && bateCategoria;
+
+                produto.style.display = mostrar ? "" : "none";
+                if (mostrar) encontrados++;
+            });
+
+            document.getElementById("no-products").hidden = encontrados !== 0;
+        }
+
+        filters.forEach(botao => {
+            botao.addEventListener("click", () => {
+                filters.forEach(b => b.classList.remove("active"));
+                botao.classList.add("active");
+                categoriaAtual = botao.dataset.filter;
+                filtrar();
+            });
+        });
+
+        searchInput.addEventListener("input", filtrar);
+
+        document.querySelectorAll("[data-category-link]").forEach(link => {
+            link.addEventListener("click", () => {
+                const categoria = link.dataset.categoryLink;
+                categoriaAtual = categoria;
+
+                filters.forEach(b => b.classList.toggle("active", b.dataset.filter === categoria));
+                filtrar();
+            });
+        });
+
+        cepInput.addEventListener("input", () => {
+            let valor = cepInput.value.replace(/\D/g, "").slice(0, 8);
+            if (valor.length > 5) valor = valor.slice(0, 5) + "-" + valor.slice(5);
+            cepInput.value = valor;
+        });
+
+        document.getElementById("checkout-whatsapp").addEventListener("click", () => {
+            if (carrinho.length === 0) {
+                mostrarToast("Adicione um produto primeiro.");
+                return;
+            }
+
+            const cep = cepInput.value.trim();
+
+            if (cep.length < 9) {
+                mostrarToast("Digite um CEP válido.");
+                cepInput.focus();
+                return;
+            }
+
+            const linhas = carrinho.map(item =>
+                `Item: ${item.nome}\nQuantidade: ${item.quantidade}\nValor: ${dinheiro(item.preco * item.quantidade)}`
+            );
+
+            const total = carrinho.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
+
+            const mensagem =
+                `Olá! Gostaria de finalizar minha compra:
+
+${linhas.join("\n\n")}
+
+Valor total: ${dinheiro(total)}
+
+CEP: ${cep}
+
+A entrega depende do CEP informado para cálculo do valor e disponibilidade da entrega.`;
+
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`, "_blank");
+        });
+
+        window.addEventListener("scroll", () => {
+            document.getElementById("header").classList.toggle("scrolled", window.scrollY > 20);
+        });
+
+        const mobileButton = document.getElementById("menu-mobile");
+        const desktopMenu = document.getElementById("desktop-menu");
+
+        mobileButton.addEventListener("click", () => {
+            const aberto = desktopMenu.style.display === "flex";
+
+            if (aberto) {
+                desktopMenu.style.display = "";
+            } else {
+                desktopMenu.style.display = "flex";
+                desktopMenu.style.position = "absolute";
+                desktopMenu.style.top = "68px";
+                desktopMenu.style.left = "14px";
+                desktopMenu.style.right = "14px";
+                desktopMenu.style.padding = "18px";
+                desktopMenu.style.flexDirection = "column";
+                desktopMenu.style.alignItems = "flex-start";
+                desktopMenu.style.background = "#111";
+                desktopMenu.style.border = "1px solid rgba(255,255,255,.1)";
+                desktopMenu.style.borderRadius = "10px";
+            }
+        });
+
+        atualizarCarrinho();
+    </script>
 
 </body>
+
 </html>
